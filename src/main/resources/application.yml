@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/springbootdb?serverTimezone=UTC
+    username: a_user
+    password: pass
+
+service:
+  fixerio:
+    url: http://data.fixer.io/api
+    access_key: bb9e132682a3f9f8ff4a29a7da713d5c
+
