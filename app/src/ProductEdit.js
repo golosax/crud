@@ -20,7 +20,7 @@ class ProductEdit extends Component {
             item: this.emptyItem,
             categories: [],
             selectedCategory: '',
-            selectedCurrency: '',
+            selectedCurrency: 'EUR',
             convertedPrice: this.emptyItem.price
         };
         this.handleChange = this.handleChange.bind(this);
@@ -126,7 +126,7 @@ class ProductEdit extends Component {
                         <FormGroup className="col-md-3 mb-3">
                             <Label for="currency">Currency</Label>
                             <Dropdown required id="currency" options={currencies}
-                                      onChange={this.handleCurrencyChange} value={selectedCurrency || 'EUR'}/>
+                                      onChange={this.handleCurrencyChange} value={selectedCurrency}/>
                         </FormGroup>
                     </div>
                     <FormGroup>
