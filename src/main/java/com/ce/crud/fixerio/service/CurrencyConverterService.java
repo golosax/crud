@@ -5,9 +5,7 @@ import com.ce.crud.fixerio.entity.FixerResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -18,8 +16,8 @@ import java.util.Map;
 
 
 @Slf4j
+@Service
 @RequiredArgsConstructor
-@RestController
 public class CurrencyConverterService {
 
     @Value("${service.fixerio.url}")
@@ -34,11 +32,7 @@ public class CurrencyConverterService {
 
     private final RestTemplate restTemplate;
 
-
-    @GetMapping("convert/{amount}/{fromCurrency}")
-    public String convert(@PathVariable BigDecimal amount,
-                          @PathVariable String fromCurrency) {
-        final String toCurrency = "EUR"; //EUR is default currency for "/api/latest" in fixer.io
+    public String convert(BigDecimal amount, String fromCurrency, String toCurrency) {
         if (toCurrency.equals(fromCurrency)) {
             return amount.toString();
         }
@@ -74,3 +68,4 @@ public class CurrencyConverterService {
     }
 
 }
+

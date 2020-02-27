@@ -11,7 +11,7 @@ class ProductEdit extends Component {
         name: '',
         category: '',
         productId: '',
-        price: '',
+        price: '0.0',
     };
 
     constructor(props) {
@@ -19,7 +19,7 @@ class ProductEdit extends Component {
         this.state = {
             item: this.emptyItem,
             categories: [],
-            selectedCategory: '',
+            defaultCategory: 'N/A',
             selectedCurrency: 'EUR',
             convertedPrice: this.emptyItem.price
         };
@@ -52,7 +52,7 @@ class ProductEdit extends Component {
     handleCategoryChange(event) {
         const value = event.value;
         let item = {...this.state.item};
-        item["category"] = this.state.categories.find(c => c.name == value);
+        item["category"] = this.state.categories.find(c => c.name === value);
         this.setState({item});
     }
 
@@ -72,6 +72,7 @@ class ProductEdit extends Component {
 
         this.state.item.price = this.state.convertedPrice;
         const {item} = this.state;
+        item.category = (item.category) || this.state.categories.find(c => c.name === this.state.defaultCategory);
 
         await fetch((item.id === undefined) ? '/product' : '/product/' + item.id, {
             method: (item.id) ? 'PUT' : 'POST',
@@ -87,7 +88,6 @@ class ProductEdit extends Component {
     render() {
         const {item} = this.state;
         const {categories} = this.state;
-        const {selectedCategory} = this.state;
         const {selectedCurrency} = this.state;
         const title = <h2>{item.id ? 'Edit Product' : 'Add Product'}</h2>;
         const currencies = ['EUR', 'JPY', 'UAH', 'PLN', 'USD', 'GBP'];
@@ -119,7 +119,7 @@ class ProductEdit extends Component {
                         <FormGroup className="col-md-3 mb-3">
                             <Label for="price">Price</Label>
                             <Input required type="number" min="0" step="any" name="price" id="price"
-                                   value={item.price || '0.0'}
+                                   value={item.price}
                                    onChange={this.handleChange} autoComplete="price"/>
                         </FormGroup>
 

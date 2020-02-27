@@ -3,13 +3,13 @@
 CREATE DATABASE productdb;
 
 # Create user
-CREATE USER 'a_user'@'localhost' IDENTIFIED BY 'pass';
+CREATE USER 'crud_user'@'localhost' IDENTIFIED BY 'pass';
 
 # Database grants
-GRANT SELECT ON productdb.* to 'a_user'@'localhost';
-GRANT INSERT ON productdb.* to 'a_user'@'localhost';
-GRANT DELETE ON productdb.* to 'a_user'@'localhost';
-GRANT UPDATE ON productdb.* to 'a_user'@'localhost';
+GRANT SELECT ON productdb.* to 'crud_user'@'localhost';
+GRANT INSERT ON productdb.* to 'crud_user'@'localhost';
+GRANT DELETE ON productdb.* to 'crud_user'@'localhost';
+GRANT UPDATE ON productdb.* to 'crud_user'@'localhost';
 
 # Create tables
 DROP TABLE IF EXISTS `product`;
@@ -33,8 +33,11 @@ CREATE TABLE `category`
 );
 
 # INSERTION
-INSERT INTO product (image, name, price, product_id, category_id)
-VALUES ('', 'jeans', 50, '12345', 1);
+INSERT INTO category (name)
+values ('N/A');
 
 INSERT INTO category (name)
 values ('clothes');
+
+INSERT INTO product (image, name, price, product_id, category_id)
+VALUES ('', 'jeans', 50, '12345', 2);
