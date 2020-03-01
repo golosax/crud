@@ -15,7 +15,8 @@ cd crud
 
 This will get a copy of the project installed locally. To install all of its dependencies and start each app, follow the instructions below.
 
-First of all setup MySQL database using `configure-mysql.sql` file and check datasource configuration in `application.yml`
+First of all setup MySQL database using `configure-mysql.sql` file and check datasource configuration in `application.yml`.
+Or use `RepositoryInitializer.java to` if you want to have a fresh DB every time the application being run. In this case comment out the part under `spring:datasource` in `application.yml` 
 
 To run the server, execute:
  
