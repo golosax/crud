@@ -1,8 +1,8 @@
-spring:
-  datasource:
-    url: jdbc:mysql://localhost:3306/productdb?serverTimezone=UTC
-    username: crud_user
-    password: pass
+#spring:
+#  datasource:
+#    url: jdbc:mysql://localhost:3306/productdb?serverTimezone=UTC
+#    username: crud_user
+#    password: pass
 
 service:
   fixerio:

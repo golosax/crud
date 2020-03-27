@@ -14,7 +14,6 @@ import java.math.MathContext;
 import java.util.Collections;
 import java.util.Map;
 
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -38,7 +37,7 @@ public class CurrencyConverterService {
         }
         Map<String, Double> rates = getRates(toCurrency);
         if (!rates.containsKey(fromCurrency)) {
-            log.warn(String.format("Can not convert currency from %s to %s.", toCurrency, fromCurrency));
+            log.warn(String.format("Can not convert currency from %s to %s.", fromCurrency, toCurrency));
             return UNKNOWN_RATE;
         }
         BigDecimal rate = BigDecimal.ONE.divide(BigDecimal.valueOf(rates.get(fromCurrency)), MathContext.DECIMAL32); //count approximate rate
@@ -66,6 +65,5 @@ public class CurrencyConverterService {
 
         return Collections.emptyMap();
     }
-
 }
 

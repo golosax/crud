@@ -11,6 +11,9 @@ GRANT INSERT ON productdb.* to 'crud_user'@'localhost';
 GRANT DELETE ON productdb.* to 'crud_user'@'localhost';
 GRANT UPDATE ON productdb.* to 'crud_user'@'localhost';
 
+# use DB
+use productdb;
+
 # Create tables
 DROP TABLE IF EXISTS `product`;
 CREATE TABLE `product`
