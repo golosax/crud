@@ -27,16 +27,16 @@ public class CategoryController {
         return categoryService.getCategories();
     }
 
-    @GetMapping("category/{id}")
-    public ResponseEntity<Category> getById(@PathVariable Integer id) {
+    @GetMapping("/category/{id}")
+    public ResponseEntity<Category> getById(@PathVariable("id") Integer id) {
         log.info(String.format("Request to get category with id {%s}", id));
         Optional<Category> category = categoryService.getCategoryById(id);
         return category.map(response -> ResponseEntity.ok().body(response))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @DeleteMapping("category/{id}")
-    public ResponseEntity<Category> deleteById(@PathVariable Integer id) {
+    @DeleteMapping("/category/{id}")
+    public ResponseEntity<Category> deleteById(@PathVariable("id") Integer id) {
         log.info(String.format("Request to delete category with id: {%s}", id));
         categoryService.deleteCategory(id);
         return ResponseEntity.ok().build();
