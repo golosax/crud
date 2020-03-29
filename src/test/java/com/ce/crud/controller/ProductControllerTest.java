@@ -32,9 +32,6 @@ class ProductControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    private ProductController productController;
-
     @MockBean
     private ProductService productService;
 
