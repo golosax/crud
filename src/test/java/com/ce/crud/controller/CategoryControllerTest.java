@@ -58,7 +58,7 @@ class CategoryControllerTest {
     }
 
     @Test
-    void getById_Status_200() throws Exception {
+    void getById_CategoryExists() throws Exception {
         // given
         Category category = new Category(1, "cat1");
 
@@ -76,7 +76,7 @@ class CategoryControllerTest {
     }
 
     @Test
-    void getById_Status_404() throws Exception {
+    void getById_CategoryNotFound() throws Exception {
         // when
         when(categoryService.getCategoryById(1)).thenReturn(Optional.empty());
 

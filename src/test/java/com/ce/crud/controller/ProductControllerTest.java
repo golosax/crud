@@ -16,11 +16,11 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 import static org.hamcrest.core.Is.is;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -38,6 +38,8 @@ class ProductControllerTest {
     @MockBean
     private ProductService productService;
 
+    private static final int PRODUCT_ID = 1;
+    private static final String PRODUCT_NAME = "product_1";
 
     @Test
     void getListOfProducts() throws Exception {
@@ -73,19 +75,70 @@ class ProductControllerTest {
                 .andExpect(jsonPath("name", is(product.getName())));
 
         verify(productService, times(1)).saveProduct(product);
-
     }
 
     @Test
-    void getById() {
+    void getById_productExists() throws Exception {
+        // given
+        Product product = createDummyProduct();
+
+        // when
+        when(productService.getProductById(product.getId())).thenReturn(Optional.of(product));
+
+        // test
+        mockMvc.perform(get("/product/{id}", product.getId()))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("id", is(product.getId())))
+                .andExpect(jsonPath("name", is(product.getName())));
+
+        verify(productService, times(1)).getProductById(product.getId());
     }
 
     @Test
-    void edit() {
+    void getById_productNotFound() throws Exception {
+        // given
+        Product product = createDummyProduct();
+
+        // when
+        when(productService.getProductById(product.getId())).thenReturn(Optional.empty());
+
+        // test
+        mockMvc.perform(get("/product/{id}", product.getId()))
+                .andDo(print())
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$").doesNotExist()); // no return body
+
+        verify(productService, times(1)).getProductById(product.getId());
+    }
+
+
+    @Test
+    void edit() throws Exception {
+        // given
+        Product product = createDummyProduct();
+
+        // when
+        when(productService.saveProduct(product)).thenReturn(product);
+
+        // test
+        mockMvc.perform(put("/product/{id}", product.getId()).contentType(MediaType.APPLICATION_JSON).content(objectToJson(product)))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("id", is(product.getId())))
+                .andExpect(jsonPath("name", is(product.getName())));
+
+        verify(productService, times(1)).saveProduct(product);
     }
 
     @Test
-    void deleteById() {
+    void deleteById() throws Exception {
+        mockMvc.perform(delete("/product/{id}", PRODUCT_ID))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").doesNotExist()); // no return body
+
+        verify(productService, times(1)).deleteProduct(PRODUCT_ID);
     }
 
     private String objectToJson(Object o) throws JsonProcessingException {
@@ -98,9 +151,8 @@ class ProductControllerTest {
 
     private Product createDummyProduct() {
         Product product = new Product();
-        product.setId(1);
-        product.setName("product_1");
-
+        product.setId(PRODUCT_ID);
+        product.setName(PRODUCT_NAME);
         return product;
     }
 
