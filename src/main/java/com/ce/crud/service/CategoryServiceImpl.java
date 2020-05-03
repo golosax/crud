@@ -19,17 +19,17 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Optional<Category> getCategoryById(Integer id) {
+    public Optional<Category> getCategoryById(final Integer id) {
         return categoryRepository.findById(id);
     }
 
     @Override
-    public Category saveCategory(Category category) {
+    public Category saveCategory(final Category category) {
         return categoryRepository.save(category);
     }
 
     @Override
-    public void deleteCategory(Integer id) {
+    public void deleteCategory(final Integer id) {
         if (categoryRepository.existsById(id)) {
             categoryRepository.deleteById(id);
         }
