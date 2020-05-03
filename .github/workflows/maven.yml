@@ -14,9 +14,6 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    after_success:
-      - bash <(curl -s https://codecov.io/bash)
-
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 1.8
@@ -27,3 +24,6 @@ jobs:
       run: mvn -B package --file pom.xml
       env:
         CODECOV_TOKEN: 57e804b8-a300-45a1-bda4-50ff27ea4f26
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
