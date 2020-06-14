@@ -95,6 +95,7 @@
                 <configuration>
                     <excludes>
                         <exclude>**/com/ce/crud/entity/**/*</exclude>
+                        <exclude>**/com/ce/crud/Application.*</exclude>
                     </excludes>
                 </configuration>
 
