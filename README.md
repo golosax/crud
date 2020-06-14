@@ -1,4 +1,6 @@
 # CRUD operations with Spring Boot and React
+
+[![codecov](https://codecov.io/gh/golosax/crud/branch/master/graph/badge.svg)](https://codecov.io/gh/golosax/crud)
  
 The application contains API and CRUD for Products and Categories. UI is populated with a React app.
 
