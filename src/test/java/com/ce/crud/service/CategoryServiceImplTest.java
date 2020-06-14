@@ -57,4 +57,28 @@ public class CategoryServiceImplTest {
         assertEquals(categoryService.saveCategory(testCategory), testCategory);
         verify(categoryRepository, times(1)).save(any());
     }
+
+    @Test
+    public void deleteCategory() {
+        // given
+        final int ID = 1;
+
+        // when
+        when(categoryRepository.existsById(ID)).thenReturn(true);
+
+        // test
+        categoryService.deleteCategory(ID);
+        verify(categoryRepository, times(1)).deleteById(ID);
+    }
+
+    @Test
+    public void deleteCategory_idNotExist() {
+        // when
+        when(categoryRepository.existsById(any())).thenReturn(false);
+
+        // test
+        categoryService.deleteCategory(0);
+        verify(categoryRepository, times(1)).existsById(anyInt());
+        verify(categoryRepository, times(0)).deleteById(any());
+    }
 }
