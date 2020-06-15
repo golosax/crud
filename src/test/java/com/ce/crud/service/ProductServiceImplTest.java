@@ -63,14 +63,23 @@ public class ProductServiceImplTest {
 
     @Test
     public void deleteProduct() {
-        // prepare
+        // when
         when(productRepository.existsById(PRODUCT_ID)).thenReturn(true);
 
-        // when
+        // test
         productService.deleteProduct(PRODUCT_ID);
+        verify(productRepository, times(1)).existsById(PRODUCT_ID);
+        verify(productRepository, times(1)).deleteById(PRODUCT_ID);
+    }
 
-        // then
-        verify(productRepository, times(1)).existsById(anyInt());
-        verify(productRepository, times(1)).deleteById(anyInt());
+    @Test
+    public void deleteProduct_idNotExist() {
+        // when
+        when(productRepository.existsById(any())).thenReturn(false);
+
+        // test
+        productService.deleteProduct(PRODUCT_ID);
+        verify(productRepository, times(1)).existsById(PRODUCT_ID);
+        verify(productRepository, times(0)).deleteById(anyInt());
     }
 }

@@ -7,7 +7,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.client.RestTemplate;
@@ -78,8 +77,7 @@ public class CurrencyConverterServiceTest {
                 .build();
 
         // when
-        doReturn(response).when(restTemplate).getForObject(Mockito.any(String.class), eq(FixerResponse.class));
-        currencyConverterService = new CurrencyConverterService(restTemplate);
+        doReturn(response).when(restTemplate).getForObject(any(String.class), eq(FixerResponse.class));
 
         // test
         assertEquals(currencyConverterService.getRates("EUR"), rates);
@@ -94,7 +92,7 @@ public class CurrencyConverterServiceTest {
                 .build();
 
         // when
-        doReturn(response).when(restTemplate).getForObject(Mockito.any(String.class), eq(FixerResponse.class));
+        doReturn(response).when(restTemplate).getForObject(any(String.class), eq(FixerResponse.class));
 
         // test
         assertEquals(currencyConverterService.getRates("EUR"), Collections.emptyMap());
@@ -115,20 +113,24 @@ public class CurrencyConverterServiceTest {
                 .build();
 
         // when
-        doReturn(responseWithError).when(restTemplate).getForObject(Mockito.any(String.class), eq(FixerResponse.class));
+        doReturn(responseWithError).when(restTemplate).getForObject(any(String.class), eq(FixerResponse.class));
 
         // test
         assertEquals(currencyConverterService.getRates("EUR"), Collections.emptyMap());
     }
 
     @Test
-    public void getRates_shouldReturnEmptyMapIfPayloadIsNull() throws Exception {
+    public void getRates_payloadIsNull() {
         // when
-        doReturn(null).when(restTemplate).getForObject(Mockito.any(String.class), eq(FixerResponse.class));
+        doReturn(null).when(restTemplate).getForObject(any(String.class), eq(FixerResponse.class));
 
         // test
         assertEquals(currencyConverterService.getRates("EUR"), Collections.emptyMap());
     }
 
+    @Test
+    void convert_exchangedCurrenciesAreEqual() {
+        assertEquals(currencyConverterService.convert(BigDecimal.ONE, "UAH", "UAH"), BigDecimal.ONE.toString());
+    }
 
 }
