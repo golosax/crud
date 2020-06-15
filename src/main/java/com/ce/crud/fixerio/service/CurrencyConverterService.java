@@ -53,14 +53,10 @@ public class CurrencyConverterService {
         log.info(String.format("Fixer API call for currency [%s].", baseCurrency));
         FixerResponse payload = restTemplate.getForObject(uriBuilder.toUriString(), FixerResponse.class);
 
-        if (payload != null && payload.getSuccess() != null && payload.getSuccess()) {
+        if (payload != null && payload.getSuccess()) {
             return payload.getRates();
-        }
-
-        if (payload == null) {
-            log.error(String.format(FIXER_ERROR, "payload is null"));
         } else {
-            log.error(String.format(FIXER_ERROR, payload.getError()));
+            log.error(String.format(FIXER_ERROR, payload == null ? "payload is null" : payload.getError()));
         }
 
         return Collections.emptyMap();
