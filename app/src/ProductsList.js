@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {Button, ButtonGroup, Container, Table} from 'reactstrap';
 import AppNavbar from './AppNavbar';
 import {Link} from 'react-router-dom';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 class ProductList extends Component {
 
@@ -32,6 +34,23 @@ class ProductList extends Component {
         });
     }
 
+    async confirmDeletion(id, name) {
+        confirmAlert({
+            title: 'Delete product ' + name,
+            message: 'Are you sure to do this?',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => this.remove(id)
+                },
+                {
+                    label: 'No',
+                    onClick: () => window.close()
+                }
+            ]
+        });
+    };
+
     render() {
         const {products, isLoading} = this.state;
 
@@ -48,7 +67,7 @@ class ProductList extends Component {
                 <td>
                     <ButtonGroup>
                         <Button size="sm" color="primary" tag={Link} to={"/product/" + product.id}>Edit</Button>
-                        <Button size="sm" color="danger" onClick={() => this.remove(product.id)}>Delete</Button>
+                        <Button size="sm" color="danger" onClick={() => this.confirmDeletion(product.id, product.name)}>Delete</Button>
                     </ButtonGroup>
                 </td>
             </tr>
